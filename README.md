@@ -40,10 +40,10 @@ Requirements
 
 Files
 =====
-secrets.yml     var file for OTC credentials and endpoints (ansible-vault)
-vm_secrets.yml  var file for virtual machine conf (ansible-vault)
-vaultpass.txt   password file for ansible-vault. The default password is: linux
-hosts           host file for ansible (we use only localhost)
+* secrets.yml    - var file for OTC credentials and endpoints (ansible-vault)
+* vm_secrets.yml - var file for virtual machine conf (ansible-vault)
+* vaultpass.txt  - password file for ansible-vault. The default password is: linux :-)
+* hosts          - host file for ansible (we use only localhost)
 
 Examples
 ========
