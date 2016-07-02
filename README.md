@@ -58,7 +58,7 @@ show flavors
 
 show floating ip-addresses
 
-    ansible-playbook -i hosts flavors.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts floatingip.yml --vault-password-file vaultpass.txt
 
 show images
 
