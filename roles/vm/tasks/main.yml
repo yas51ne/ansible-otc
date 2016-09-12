@@ -1,4 +1,4 @@
-- include_vars: vm_secrets.yml
+- include_vars: _vm_secrets.yml
 
 - name: Send request to API
   uri:
