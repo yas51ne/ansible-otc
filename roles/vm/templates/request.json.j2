@@ -19,7 +19,13 @@
             }
         ],
 
+{% if vm_adminpass is defined %}  
         "adminPass": "{{ vm_adminpass }}",
+{% endif %}  
+{% if vm_adminkey is defined %}  
+        "key_name": "{{ vm_adminkey }}",
+        "adminPass": "",
+{% endif %}  
         "count": 1,
         "},": {
             "__vnc_keymap": "de"

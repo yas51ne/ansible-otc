@@ -26,6 +26,7 @@ flavors     show flavors
 floatingip  show floating ip-addresses
 images      show images
 job         show job status
+keypairs    show keypairs
 secgroups   show security groups
 subnet      show subnet
 token       get auth token
@@ -71,6 +72,10 @@ show images
 show job status
 
     ansible-playbook -e "job_id=2c9eb2c15693b00901571e32ad5e1755" -i hosts job.yml --vault-password-file vaultpass.txt
+
+show keypairs
+
+    ansible-playbook -i hosts keypairs.yml --vault-password-file vaultpass.txt
 
 show security groups
 
