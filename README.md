@@ -25,6 +25,7 @@ ecs         show virtual machines
 flavors     show flavors
 floatingip  show floating ip-addresses
 images      show images
+job         show job status
 secgroups   show security groups
 subnet      show subnet
 token       get auth token
@@ -48,6 +49,9 @@ Files
 Examples
 ========
 
+copy secrets.yml to _secrets.yml and vm_secrets.yml to _vm_secrets.yml 
+with your real data before you using the examples:
+
 show virtual machines
 
     ansible-playbook -i hosts ecs.yml --vault-password-file vaultpass.txt
@@ -64,9 +68,17 @@ show images
 
     ansible-playbook -i hosts images.yml --vault-password-file vaultpass.txt
 
+show job status
+
+    ansible-playbook -e "job_id=2c9eb2c15693b00901571e32ad5e1755" -i hosts job.yml --vault-password-file vaultpass.txt
+
 show security groups
 
     ansible-playbook -i hosts secgroups.yml --vault-password-file vaultpass.txt
+
+show subnets
+
+    ansible-playbook -i hosts subnet.yml --vault-password-file vaultpass.txt
 
 show vpc
 
@@ -75,7 +87,6 @@ show vpc
 create and start virtual machine (defined in vm_secrets.yml)
 
     ansible-playbook -i hosts vm.yml --vault-password-file vaultpass.txt
-
 
 
 Contributing
