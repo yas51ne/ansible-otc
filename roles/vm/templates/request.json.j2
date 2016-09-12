@@ -16,6 +16,9 @@
         "nics": [
             {
                 "subnet_id": "{{ vm_subnetid }}"
+{% if vm_ipaddress is defined %}  
+                "ip_address": "{{ vm_ipaddress }}",
+{% endif %}  
             }
         ],
 
