@@ -21,19 +21,21 @@ http://support.hwclouds.com/en-us/api/ecs/en-us_topic_0020805967.html
 
 Roles
 =====
-ecs         list virtual machines
-flavors     show flavors
-floatingip  show floating ip-addresses
-images      show images
-job         show job status
-keypairs    show keypairs
-secgroups   show security groups
-subnet      show subnet
-token       get auth token
-vm          create and start virtual machine
-vm_delete   delete a specific virtual machine
-vm_info     information about a specific virtual machine
-vpc         show vpc
+ecs           list virtual machines
+elb_create    create elastic loadbalancer
+elb_listener  create listener for elastic loadbalancer
+flavors       show flavors
+floatingip    show floating ip-addresses
+images        show images
+job           show job status
+keypairs      show keypairs
+secgroups     show security groups
+subnet        show subnet
+token         get auth token
+vm            create and start virtual machine
+vm_delete     delete a specific virtual machine
+vm_info       information about a specific virtual machine
+vpc           show vpc
 
 Requirements
 ============
@@ -44,10 +46,11 @@ Requirements
 
 Files
 =====
-* secrets.yml    - var file for OTC credentials and endpoints (ansible-vault)
-* vm_secrets.yml - var file for virtual machine conf (ansible-vault)
-* vaultpass.txt  - password file for ansible-vault. The default password is: linux :-)
-* hosts          - host file for ansible (we use only localhost)
+* secrets.yml     - var file for OTC credentials and endpoints (ansible-vault)
+* vm_secrets.yml  - var file for virtual machine conf (ansible-vault)
+* elb_secrets.yml - var file for elastic loadbalancer conf (ansible-vault)
+* vaultpass.txt   - password file for ansible-vault. The default password is: linux :-)
+* hosts           - host file for ansible (we use only localhost)
 
 Examples
 ========
@@ -62,6 +65,14 @@ show virtual machines
 show information about a single virtual machines
 
     ansible-playbook -e "vm_id=f6b7536e-b954-4d73-940f-248de71ce58b vm_name=test06-ansible" -i hosts vm_info.yml --vault-password-file vaultpass.txt
+
+create elastic loadbalancer
+
+    ansible-playbook -i hosts elb_create.yml --vault-password-file vaultpass.txt
+
+create listener for elastic loadbalancer
+
+    ansible-playbook -i hosts -e "elb_id=e12454b93f304b759be699cb0270648c" elb_listener.yml --vault-password-file vaultpass.txt
 
 show flavors
 

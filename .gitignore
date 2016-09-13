@@ -1,3 +1,4 @@
 _secrets.yml
 _vm_secrets.yml
+_elb_secrets.yml
 *.retry

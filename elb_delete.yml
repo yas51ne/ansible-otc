@@ -1,0 +1,9 @@
+---
+- hosts: all
+  roles:
+  - role: token
+  - role: elb_delete
+
+http://support.hwclouds.com/en-us/api-elb/en-us_topic_0020100178.html
+
+
