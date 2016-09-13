@@ -21,7 +21,7 @@ http://support.hwclouds.com/en-us/api/ecs/en-us_topic_0020805967.html
 
 Roles
 =====
-ecs         show virtual machines
+ecs         list virtual machines
 flavors     show flavors
 floatingip  show floating ip-addresses
 images      show images
@@ -31,6 +31,8 @@ secgroups   show security groups
 subnet      show subnet
 token       get auth token
 vm          create and start virtual machine
+vm_delete   delete a specific virtual machine
+vm_info     information about a specific virtual machine
 vpc         show vpc
 
 Requirements
@@ -50,12 +52,16 @@ Files
 Examples
 ========
 
-copy secrets.yml to _secrets.yml and vm_secrets.yml to _vm_secrets.yml 
-with your real data before you using the examples:
+    copy secrets.yml to _secrets.yml and vm_secrets.yml to _vm_secrets.yml 
+    with your real data before you using the examples:
 
 show virtual machines
 
     ansible-playbook -i hosts ecs.yml --vault-password-file vaultpass.txt
+
+show information about a single virtual machines
+
+    ansible-playbook -e "vm_id=f6b7536e-b954-4d73-940f-248de71ce58b vm_name=test06-ansible" -i hosts vm_info.yml --vault-password-file vaultpass.txt
 
 show flavors
 
@@ -92,6 +98,14 @@ show vpc
 create and start virtual machine (defined in vm_secrets.yml)
 
     ansible-playbook -i hosts vm.yml --vault-password-file vaultpass.txt
+
+delete virtual machine (only the machine)
+
+    ansible-playbook -e "vm_id=51b6558a-7a6d-49f4-94e5-f4ec94314746 vm_name=test05-ansible" -i hosts vm_delete.yml --vault-password-file vaultpass.txt
+
+delete virtual machine (delete also floating ip and attached volumes)
+
+    ansible-playbook -e "vm_id=f6b7536e-b954-4d73-940f-248de71ce58b vm_name=test06-ansible delete_publicip=1 delete_volume=1" -i hosts vm_delete.yml --vault-password-file vaultpass.txt
 
 
 Contributing
