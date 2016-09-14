@@ -21,63 +21,71 @@ http://support.hwclouds.com/en-us/api/ecs/en-us_topic_0020805967.html
 
 Roles
 =====
-ecs           list virtual machines
-elb_create    create elastic loadbalancer
-elb_listener  create listener for elastic loadbalancer
-flavors       show flavors
-floatingip    show floating ip-addresses
-images        show images
-job           show job status
-keypairs      show keypairs
-secgroups     show security groups
-subnet        show subnet
-token         get auth token
-vm            create and start virtual machine
-vm_delete     delete a specific virtual machine
-vm_info       information about a specific virtual machine
-vpc           show vpc
+|role         | description|
+|-------------|------------|
+|ecs          | list virtual machines|
+|elb_create   | create elastic loadbalancer|
+|elb_listener | create listener for elastic loadbalancer|
+|flavors      | show flavors|
+|floatingip   | show floating ip-addresses|
+|images       | show images|
+|job          | show job status|
+|keypairs     | show keypairs|
+|secgroups    | show security groups|
+|subnet       | show subnet|
+|token        | get auth token|
+|vm           | create and start virtual machine|
+|vm_delete    | delete a specific virtual machine|
+|vm_info      | information about a specific virtual machine|
+|vpc          | show vpc|
 
 Requirements
 ============
-* Ansible 2.0.1.0
+* Ansible >=2.0.1.0
 
-  Ubuntu 12.04/14.04/16.04:
+  *Ubuntu 12.04/14.04/16.04:*
   
+  ```
      apt-get install software-properties-common
      apt-add-repository ppa:ansible/ansible
      apt-get update
      apt-cache policy ansible
      # should have version >2.1.0
      apt-get install ansible
+  ```
   
-  OpenSuSE 13.2:
+  *OpenSuSE 13.2:*
   
-      zypper ar http://download.opensuse.org/repositories/systemsmanagement/openSUSE_13.2/systemsmanagement.repo
-      zypper up
-      zypper install ansible
-      
+  ```
+     zypper ar http://download.opensuse.org/repositories/systemsmanagement/openSUSE_13.2/systemsmanagement.repo
+     zypper up
+     zypper install ansible
+  ```    
       
 (should work on all other *nix systems)
 
-* credentials on OTC (username, projectid, generated API key)
+* :exclamation: credentials on OTC (username, projectid, generated API key)
 
 Files
 =====
-* secrets.yml     - var file for OTC credentials and endpoints (ansible-vault)
-* vm_secrets.yml  - var file for virtual machine conf (ansible-vault)
-* elb_secrets.yml - var file for elastic loadbalancer conf (ansible-vault)
-* vaultpass.txt   - password file for ansible-vault. The default password is: linux :-)
-* hosts           - host file for ansible (we use only localhost)
+| filename       | description|
+|----------------|------------|
+|secrets.yml     | var file for OTC credentials and endpoints (ansible-vault)|
+|vm_secrets.yml  | var file for virtual machine conf (ansible-vault)|
+|elb_secrets.yml | var file for elastic loadbalancer conf (ansible-vault)|
+|vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
+|hosts           | host file for ansible (we use only localhost)|
 
 Examples
 ========
 
+```
     cp secrets.yml  _secrets.yml 
     cp vm_secrets.yml  _vm_secrets.yml 
     cp elb_secrets.yml _elb_secrets.yml
-
+```
   
-(!) adjust your own data in this file before you using the examples:
+:exclamation: **adjust your own data in this file before you using the examples:**
 
 show virtual machines
 
@@ -86,7 +94,7 @@ show virtual machines
 show information about a single virtual machines
 
     ansible-playbook -e "vm_id=f6b7536e-b954-4d73-940f-248de71ce58b vm_name=test06-ansible" -i hosts vm_info.yml --vault-password-file vaultpass.txt
-
+    
 create elastic loadbalancer
 
     ansible-playbook -i hosts elb_create.yml --vault-password-file vaultpass.txt
