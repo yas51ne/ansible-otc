@@ -131,6 +131,18 @@ create and start virtual machine (defined in vm_secrets.yml)
 
     ansible-playbook -i hosts vm.yml --vault-password-file vaultpass.txt
 
+create and start virtual machine with file injection 
+(inject up to 5 max 1k base64 encoded files)
+
+    ansible-playbook -i hosts -e "vm_fileinject_1=/etc/hosts vm_fileinject_data_1=$(base64 -w 0 hosts.txt) vm_fileinject_2=/root/README.md2 vm_fileinject_data_2=$(base64 -w 0 hallo.txt)" vm.yml --vault-password-file vaultpass.txt
+
+create and start virtual machine with injection user_data
+(inject max 32k base64 encoded user-data files)
+
+    ansible-playbook -i hosts -e "vm_user_data=$(base64 -w 0 user-data.txt)" vm.yml --vault-password-file vaultpass.txt
+
+(!) You can define vm_fileinject_1, vm_fileinject_data_1 and vm_user_data also in _vm_secrets.yml. Files must be base64 encoded.
+
 delete virtual machine (only the machine)
 
     ansible-playbook -e "vm_id=51b6558a-7a6d-49f4-94e5-f4ec94314746 vm_name=test05-ansible" -i hosts vm_delete.yml --vault-password-file vaultpass.txt

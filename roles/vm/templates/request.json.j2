@@ -26,7 +26,41 @@
             "id": "{{ vm_publicip }}"
         },
 {% endif %}  
-
+{% if vm_fileinject_1 is defined %}  
+        "personality": [
+            {
+                "path": "{{ vm_fileinject_1 }}",
+                "contents":  "{{ vm_fileinject_data_1 }}"
+            }
+{% if vm_fileinject_2 is defined %}  
+            ,{
+                "path": "{{ vm_fileinject_2 }}",
+                "contents":  "{{ vm_fileinject_data_2 }}"
+            }
+{% endif %}  
+{% if vm_fileinject_3 is defined %}  
+            ,{
+                "path": "{{ vm_fileinject_3 }}",
+                "contents":  "{{ vm_fileinject_data_3 }}"
+            }
+{% endif %}  
+{% if vm_fileinject_4 is defined %}  
+            ,{
+                "path": "{{ vm_fileinject_4 }}",
+                "contents":  "{{ vm_fileinject_data_4 }}"
+            }
+{% endif %}  
+{% if vm_fileinject_5 is defined %}  
+            ,{
+                "path": "{{ vm_fileinject_5 }}",
+                "contents":  "{{ vm_fileinject_data_5 }}"
+            }
+{% endif %}  
+        ],
+{% endif %}  
+{% if vm_user_data is defined %}  
+        "user_data": "{{ vm_user_data }}",
+{% endif %}  
 {% if vm_adminpass is defined %}  
         "adminPass": "{{ vm_adminpass }}",
 {% endif %}  
