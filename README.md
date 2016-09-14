@@ -40,8 +40,25 @@ vpc           show vpc
 Requirements
 ============
 * Ansible 2.0.1.0
-* Ubuntu 14.04.
+
+  Ubuntu 12.04/14.04/16.04:
+  
+     apt-get install software-properties-common
+     apt-add-repository ppa:ansible/ansible
+     apt-get update
+     apt-cache policy ansible
+     # should have version >2.1.0
+     apt-get install ansible
+  
+  OpenSuSE 13.2:
+  
+      zypper ar http://download.opensuse.org/repositories/systemsmanagement/openSUSE_13.2/systemsmanagement.repo
+      zypper up
+      zypper install ansible
+      
+      
 (should work on all other *nix systems)
+
 * credentials on OTC (username, projectid, generated API key)
 
 Files
@@ -55,8 +72,12 @@ Files
 Examples
 ========
 
-    copy secrets.yml to _secrets.yml and vm_secrets.yml to _vm_secrets.yml 
-    with your real data before you using the examples:
+    cp secrets.yml  _secrets.yml 
+    cp vm_secrets.yml  _vm_secrets.yml 
+    cp elb_secrets.yml _elb_secrets.yml
+
+  
+(!) adjust your own data in this file before you using the examples:
 
 show virtual machines
 
