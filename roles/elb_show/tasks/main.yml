@@ -1,15 +1,16 @@
-- include_vars: _secrets.yml
+- include_vars: _elb_secrets.yml
 
-- name: Request ecs list from AUTH API
+- name: Send request to API
   uri:
-    url: "{{ AUTH_URL_ECS }}"
+    url: "{{ AUTH_URL_ELB }}/{{ elb_id }}"
     method: GET
+    follow_redirects: all
     return_content: yes 
     validate_certs: yes
     HEADER_Content-Type: "application/json"
     HEADER_X-Auth-Token: "{{ token['x_subject_token'] }}"
-  register: ecslist
+  register: elb
 
 - debug:
-    msg: "{{ ecslist.json }}"
+    msg: "{{ elb }}"
 
