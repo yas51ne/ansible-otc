@@ -2,4 +2,4 @@
 - hosts: all
   roles:
   - role: token
-  - role: elb_listener
+  - role: elb_listener_create
