@@ -2,6 +2,6 @@
 - hosts: all
   roles:
   - role: token
-  - role: vm_info
+  - role: ecs_show
 
 
