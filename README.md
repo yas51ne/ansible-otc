@@ -48,6 +48,7 @@ Roles
 |images                 | show images|
 |job                    | show job status|
 |keypairs               | show keypairs|
+|s3                     | show s3 buckets|
 |secgroups              | show security groups|
 |subnet                 | show subnet|
 |token                  | get auth token|
@@ -220,6 +221,10 @@ show job status
 show keypairs
 
     ansible-playbook -i hosts keypairs.yml --vault-password-file vaultpass.txt
+
+show s3 buckets
+
+    ansible-playbook -i hosts s3.yml --vault-password-file vaultpass.txt
 
 show security groups
 
