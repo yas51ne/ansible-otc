@@ -64,6 +64,8 @@ Roles
 Requirements
 ============
 * curl
+* openssl
+* base64
 * Ansible >=2.0.1.0
 
   *Ubuntu 12.04/14.04/16.04:*
