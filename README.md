@@ -46,9 +46,14 @@ Roles
 |flavors                | show flavors|
 |floatingip             | show floating ip-addresses|
 |images                 | show images|
+|image_create           | create an image from obs|
+|image_delete           | delete an image |
 |job                    | show job status|
 |keypairs               | show keypairs|
 |s3                     | show s3 buckets|
+|s3_bucket_create       | create s3 bucket|
+|s3_bucket_delete       | delete s3 bucket|
+|s3_upload              | upload files in s3 object store|
 |secgroups              | show security groups|
 |subnet                 | show subnet|
 |token                  | get auth token|
@@ -212,6 +217,10 @@ show images
 
     ansible-playbook -i hosts images.yml --vault-password-file vaultpass.txt
 
+delete an image (API return code is 204 when success, ansible expected 200 and may give an error)
+
+     ansible-playbook -i hosts -e "image_id=af0a0bcf-7be3-4722-98ba-3350801a8cd5" image_delete.yml  --vault-password-file vaultpass.txt
+
 show job status
 
     ansible-playbook -e "job_id=2c9eb2c15693b00901571e32ad5e1755" -i hosts job.yml --vault-password-file vaultpass.txt
@@ -225,6 +234,18 @@ show keypairs
 show s3 buckets
 
     ansible-playbook -i hosts s3.yml --vault-password-file vaultpass.txt
+
+create s3 bucket
+
+    ansible-playbook -i hosts -e "bucket=mybucket"  s3_bucket_create.yml  --vault-password-file vaultpass.txt
+
+delete s3 bucket
+
+    ansible-playbook -i hosts -e "bucket=mybucket"  s3_bucket_delete.yml  --vault-password-file vaultpass.txt
+
+upload files in s3 object store (VHD, ZVHD, VMDK, QCOW2 are supported for otc image service)
+
+    ansible-playbook -i hosts -e "bucket=mybucket" -e "object=xenial-server-cloudimg-amd64-disk1.vmdk"  s3_upload.yml  --vault-password-file vaultpass.txt
 
 show security groups
 
