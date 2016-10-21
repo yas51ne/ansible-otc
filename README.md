@@ -10,6 +10,8 @@ Open Telekom Cloud (OTC). The service includes
 * Elastic Cloud Server (ECS)
 * Elastic Load Balancer (ELB)
 * Elastic Volume Service (EVS)
+* Image Management Service (IMS)
+* Object Storage Service (OBS)
 and other useful things. The portfolio will rapidly developed.
 
 
@@ -46,8 +48,14 @@ Roles
 |flavors                | show flavors|
 |floatingip             | show floating ip-addresses|
 |images                 | show images|
+|image_create           | create an image from obs|
+|image_delete           | delete an image |
 |job                    | show job status|
 |keypairs               | show keypairs|
+|s3                     | show s3 buckets|
+|s3_bucket_create       | create s3 bucket|
+|s3_bucket_delete       | delete s3 bucket|
+|s3_upload              | upload files in s3 object store|
 |secgroups              | show security groups|
 |subnet                 | show subnet|
 |token                  | get auth token|
@@ -55,6 +63,9 @@ Roles
 
 Requirements
 ============
+* curl
+* openssl
+* base64
 * Ansible >=2.0.1.0
 
   *Ubuntu 12.04/14.04/16.04:*
@@ -78,7 +89,7 @@ Requirements
       
 (should work on all other *nix systems)
 
-* :exclamation: credentials on OTC (username, projectid, generated API key)
+* :exclamation: credentials on OTC (username, projectid, generated API key, S3 access/secret key)
 
 Files
 =====
@@ -211,6 +222,10 @@ show images
 
     ansible-playbook -i hosts images.yml --vault-password-file vaultpass.txt
 
+delete an image (API return code is 204 when success, ansible expected 200 and may give an error)
+
+     ansible-playbook -i hosts -e "image_id=af0a0bcf-7be3-4722-98ba-3350801a8cd5" image_delete.yml  --vault-password-file vaultpass.txt
+
 show job status
 
     ansible-playbook -e "job_id=2c9eb2c15693b00901571e32ad5e1755" -i hosts job.yml --vault-password-file vaultpass.txt
@@ -220,6 +235,22 @@ show job status
 show keypairs
 
     ansible-playbook -i hosts keypairs.yml --vault-password-file vaultpass.txt
+
+show s3 buckets
+
+    ansible-playbook -i hosts s3.yml --vault-password-file vaultpass.txt
+
+create s3 bucket
+
+    ansible-playbook -i hosts -e "bucket=mybucket"  s3_bucket_create.yml  --vault-password-file vaultpass.txt
+
+delete s3 bucket
+
+    ansible-playbook -i hosts -e "bucket=mybucket"  s3_bucket_delete.yml  --vault-password-file vaultpass.txt
+
+upload files in s3 object store (VHD, ZVHD, VMDK, QCOW2 are supported for otc image service)
+
+    ansible-playbook -i hosts -e "bucket=mybucket" -e "object=xenial-server-cloudimg-amd64-disk1.vmdk"  s3_upload.yml  --vault-password-file vaultpass.txt
 
 show security groups
 

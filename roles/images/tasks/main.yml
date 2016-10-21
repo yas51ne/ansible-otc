@@ -1,6 +1,6 @@
 - name: Request images list from  API
   uri:
-    url: "{{ AUTH_URL_IMAGES }}"
+    url: "{{ AUTH_URL_CLOUDIMAGES }}"
     method: GET
     return_content: yes 
     validate_certs: yes
