@@ -10,6 +10,8 @@ Open Telekom Cloud (OTC). The service includes
 * Elastic Cloud Server (ECS)
 * Elastic Load Balancer (ELB)
 * Elastic Volume Service (EVS)
+* Image Management Service (IMS)
+* Object Storage Service (OBS)
 and other useful things. The portfolio will rapidly developed.
 
 
@@ -61,6 +63,7 @@ Roles
 
 Requirements
 ============
+* curl
 * Ansible >=2.0.1.0
 
   *Ubuntu 12.04/14.04/16.04:*
@@ -84,7 +87,7 @@ Requirements
       
 (should work on all other *nix systems)
 
-* :exclamation: credentials on OTC (username, projectid, generated API key)
+* :exclamation: credentials on OTC (username, projectid, generated API key, S3 access/secret key)
 
 Files
 =====
