@@ -12,6 +12,7 @@ Open Telekom Cloud (OTC). The service includes
 * Elastic Volume Service (EVS)
 * Image Management Service (IMS)
 * Object Storage Service (OBS)
+* Dynamic Name Service (DNS)
 and other useful things. The portfolio will rapidly developed.
 
 
@@ -60,6 +61,12 @@ Roles
 |subnet                 | show subnet|
 |token                  | get auth token|
 |vpc                    | show vpc|
+|zones                  | show DNS zones|
+|zonerecords            | show DNS zonerecords|
+|zone_create            | create DNS zone|
+|zone_delete            | delete DNS zone|
+|zonerecord_create      | create DNS zonerecord|
+|zonerecord_delete      | delete DNS zonerecord|
 
 Requirements
 ============
@@ -263,6 +270,43 @@ show subnets
 show vpc
 
     ansible-playbook -i hosts vpc.yml --vault-password-file vaultpass.txt
+
+show DNS zones
+
+    ansible-playbook -i hosts  zones.yml --vault-password-file vaultpass.txt
+
+create DNS zone (name and ttl are mandatory)
+
+    ansible-playbook -i hosts -e "zone_name=example.com." -e "zone_description=example zone" -e "zone_email=example@example.com" -e "zone_ttl=86400" zone_create.yml --vault-password-file vaultpass.txt
+
+delete DNS zone
+
+    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec5ca2620234" zone_delete.yml --vault-password-file vaultpass.txt
+
+show DNS zone records
+
+    ansible-playbook -i hosts  zonerecords.yml --vault-password-file vaultpass.txt
+
+create DNS zonerecord (A-Record) possible values A,AAAA,MX,CNAME,PTR,TXT,NS
+
+    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec620968023a" -e "zonerecord_name=testserver.example.com." -e "zonerecord_type=A" -e "zonerecord_value=160.44.196.210" -e "zonerecord_ttl=86400" zonerecord_create.yml --vault-password-file vaultpass.txt
+
+create DNS zonerecord (PTR-Record)
+
+    first create reverse zone:
+
+    ansible-playbook -i hosts -e "zone_name=210.196.44.160.in-addr.arpa." -e "zone_description=reverse  zone 160.44.196.210" -e "zone_email=test@example.com" -e "zone_ttl=300" zone_create.yml --vault-password-file vaultpass.txt
+
+    then create PTR-Record:
+    
+    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec8911e60240" -e "zonerecord_name=210.196.44.160.in-addr.arpa." -e "zonerecord_type=PTR" -e "zonerecord_value=testserver.example.com" -e "zonerecord_ttl=300" zonerecord_create.yml --vault-password-file vaultpass.txt
+
+    beware of "." in the end of name and name convention of the PTR zones
+
+delete DNS zonerecord 
+
+    ansible-playbook -i hosts -e "zoneid=ff80808257e2bb5e0157ec620968023a" -e "zonerecordid=ff80808257e2bb050157ec789b5e027e"  zonerecord_delete.yml --vault-password-file vaultpass.txt
+
 
 Contributing
 ------------
