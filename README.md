@@ -140,6 +140,10 @@ create and start virtual machine with injection user_data
 
 (!) You can define ecs_fileinject_1, ecs_fileinject_data_1 and ecs_user_data also in _ecs_secrets.yml. Files must be base64 encoded.
 
+show virtual machine (single)
+
+    ansible-playbook -e "ecs_id=51b6558a-7a6d-49f4-94e5-f4ec94314746 ecs_name=test05-ansible" -i hosts ecs_show.yml --vault-password-file vaultpass.txt
+
 delete virtual machine (only the machine)
 
     ansible-playbook -e "ecs_id=51b6558a-7a6d-49f4-94e5-f4ec94314746 ecs_name=test05-ansible" -i hosts ecs_delete.yml --vault-password-file vaultpass.txt
