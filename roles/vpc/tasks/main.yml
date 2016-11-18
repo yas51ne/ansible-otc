@@ -1,6 +1,6 @@
 - name: Request vpc list from AUTH API
   uri:
-    url: "{{ AUTH_URL_VPCS }}"
+    url: "{{ AUTH_URL_VPC }}/vpcs"
     method: GET
     return_content: yes 
     validate_certs: yes
