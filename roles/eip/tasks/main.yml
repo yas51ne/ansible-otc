@@ -1,6 +1,6 @@
 - name: Request floatingip list from API
   uri:
-    url: "{{ AUTH_URL_PUBLICIPS }}"
+    url: "{{ AUTH_URL_VPC }}/publicips"
     method: GET
     return_content: yes 
     validate_certs: yes

@@ -30,6 +30,7 @@ Roles
 |ecs_create             | create and start virtual machine|
 |ecs_delete             | delete a specific virtual machine|
 |ecs_show               | information about a specific virtual machine|
+|eip                    | show floating ip-addresses|
 |elb                    | list elastic loadbalancers|
 |elb_create             | create elastic loadbalancer|
 |elb_delete             | delete elastic loadbalancer|
@@ -46,17 +47,18 @@ Roles
 |elb_backends           | list backends for elastic loadbalancer|
 |elb_backends_create    | create backends for elastic loadbalancer|
 |elb_backends_delete    | delete backends for elastic loadbalancer|
+|endpoints              | discover API endpoints|
 |evs                    | list volumes|
 |evs_create             | create a volume|
 |evs_delete             | delete a volume|
 |evs_show               | information about a specific volume|
 |flavors                | show flavors|
-|floatingip             | show floating ip-addresses|
 |images                 | show images|
 |image_create           | create an image from obs|
 |image_delete           | delete an image |
 |job                    | show job status|
 |keypairs               | show keypairs|
+|services               | discover API services|
 |s3                     | show s3 buckets|
 |s3_bucket_create       | create s3 bucket|
 |s3_bucket_delete       | delete s3 bucket|
@@ -225,6 +227,10 @@ delete backends for elastic loadbalancer
 
     ansible-playbook -i hosts -e "elb_listener_id=e12454b93f304b759be699cb0270648c elb_backends_id=f6b7536e-b954-4d73-940f-248de71ce58b" elb_backends_delete.yml --vault-password-file vaultpass.txt
 
+discover API endpoints
+
+    ansible-playbook -i hosts endpoints.yml --vault-password-file vaultpass.txt
+
 list volumes
 
     ansible-playbook -i hosts evs.yml --vault-password-file vaultpass.txt
@@ -247,7 +253,7 @@ show flavors
 
 show floating ip-addresses
 
-    ansible-playbook -i hosts floatingip.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts eip.yml --vault-password-file vaultpass.txt
 
 show images
 
@@ -266,6 +272,10 @@ show job status
 show keypairs
 
     ansible-playbook -i hosts keypairs.yml --vault-password-file vaultpass.txt
+
+discover API services
+
+    ansible-playbook -i hosts services.yml --vault-password-file vaultpass.txt
 
 show s3 buckets
 

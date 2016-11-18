@@ -2,6 +2,6 @@
 - hosts: all
   roles:
   - role: token
-  - role: floatingip
+  - role: eip
 
 
