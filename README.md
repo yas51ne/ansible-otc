@@ -46,6 +46,10 @@ Roles
 |elb_backends           | list backends for elastic loadbalancer|
 |elb_backends_create    | create backends for elastic loadbalancer|
 |elb_backends_delete    | delete backends for elastic loadbalancer|
+|evs                    | list volumes|
+|evs_create             | create a volume|
+|evs_delete             | delete a volume|
+|evs_show               | information about a specific volume|
 |flavors                | show flavors|
 |floatingip             | show floating ip-addresses|
 |images                 | show images|
@@ -104,7 +108,7 @@ Files
 |----------------|------------|
 |ajob            | shell script to fetch job status from OTC|
 |secrets.yml     | var file for OTC credentials and endpoints (ansible-vault)|
-|ecs_secrets.yml  | var file for virtual machine conf (ansible-vault)|
+|ecs_secrets.yml  | var file for virtual machine and volume conf (ansible-vault)|
 |elb_secrets.yml | var file for elastic loadbalancer conf (ansible-vault)|
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
 |hosts           | host file for ansible (we use only localhost)|
@@ -220,6 +224,22 @@ create backends for elastic loadbalancer
 delete backends for elastic loadbalancer
 
     ansible-playbook -i hosts -e "elb_listener_id=e12454b93f304b759be699cb0270648c elb_backends_id=f6b7536e-b954-4d73-940f-248de71ce58b" elb_backends_delete.yml --vault-password-file vaultpass.txt
+
+list volumes
+
+    ansible-playbook -i hosts evs.yml --vault-password-file vaultpass.txt
+
+create a volume (defined in ecs_secrets.yml)
+
+    ansible-playbook -i hosts evs_create.yml --vault-password-file vaultpass.txt
+
+delete a volume 
+
+    ansible-playbook -i hosts evs_delete.yml -e "evs_id=05f143e0-3ca9-4ec7-97e6-733dd281c283" --vault-password-file vaultpass.txt
+
+show information about a single volume
+
+    ansible-playbook -i hosts evs_show.yml -e "evs_id=05f143e0-3ca9-4ec7-97e6-733dd281c283" --vault-password-file vaultpass.txt
 
 show flavors
 
