@@ -1,6 +1,6 @@
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_EVS }}/{{ evs_id }}"
+    url: "{{ AUTH_URL_EVS }}/cloudvolumes/{{ evs_id }}"
     method: DELETE
     body_format: raw
     follow_redirects: all

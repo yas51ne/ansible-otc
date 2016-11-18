@@ -1,6 +1,6 @@
 - name: Request volumes list from  API
   uri:
-    url: "{{ AUTH_URL_EVS_VOLUMES }}/{{ evs_id }}"
+    url: "{{ AUTH_URL_EVS }}/volumes/{{ evs_id }}"
     method: GET
     return_content: yes 
     validate_certs: yes

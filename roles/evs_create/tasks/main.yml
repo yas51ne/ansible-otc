@@ -2,7 +2,7 @@
 
 - name: Send request to API
   uri:
-    url: "{{ AUTH_URL_EVS }}"
+    url: "{{ AUTH_URL_EVS }}/cloudvolumes"
     method: POST
     body_format: raw
     follow_redirects: all
