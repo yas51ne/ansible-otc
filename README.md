@@ -64,6 +64,10 @@ Roles
 |s3_bucket_delete       | delete s3 bucket|
 |s3_upload              | upload files in s3 object store|
 |secgroups              | show security groups|
+|secgroup_create        | create security group|
+|secgroup_delete        | delete security group|
+|secgrouprule_create    | create security group rule|
+|secgrouprule_delete    | delete security group rule|
 |subnet                 | show subnet|
 |token                  | get auth token|
 |vpc                    | show vpc|
@@ -112,6 +116,7 @@ Files
 |secrets.yml     | var file for OTC credentials and endpoints (ansible-vault)|
 |ecs_secrets.yml  | var file for virtual machine and volume conf (ansible-vault)|
 |elb_secrets.yml | var file for elastic loadbalancer conf (ansible-vault)|
+|secgrouprule.yml| var file for single security group rule |
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
 |hosts           | host file for ansible (we use only localhost)|
 
@@ -296,6 +301,26 @@ upload files in s3 object store (VHD, ZVHD, VMDK, QCOW2 are supported for otc im
 show security groups
 
     ansible-playbook -i hosts secgroups.yml --vault-password-file vaultpass.txt
+
+show security groups (only from one vpc)
+
+    ansible-playbook -i hosts secgroups.yml -e "vpc_id=d59284de-ad78-4fee-8f2d-d6ff335f4961" --vault-password-file vaultpass.txt
+
+create security group
+
+    ansible-playbook -i hosts secgroup_create.yml -e "secgroup_name=ansible-secgroup01" -e "vpc_id=d59284de-ad78-4fee-8f2d-d6ff335f4961" --vault-password-file vaultpass.txt
+
+delete security group
+
+    ansible-playbook -i hosts secgroup_delete.yml -e "secgroup_id="6e8ac0a0-e0ec-4c4d-a786-9c9c946fd673"" --vault-password-file vaultpass.txt
+
+create security group rule
+
+    ansible-playbook -i hosts secgrouprule_create.yml -e "secgroup_id=e67e7ef1-b582-47f7-a43f-6a244fd01353" -e @secgrouprule.yml --vault-password-file vaultpass.txt
+
+delete security group rule
+
+    ansible-playbook -i hosts secgrouprule_delete.yml -e "secgrouprule_id=3c329359-fef5-402f-b29a-caac734065a1" --vault-password-file vaultpass.txt
 
 show subnets
 
