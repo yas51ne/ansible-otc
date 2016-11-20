@@ -75,6 +75,8 @@ Roles
 |subnet_delete          | delete subnet|
 |token                  | get auth token|
 |vpc                    | show vpc|
+|create_vpc             | create vpc|
+|delete_vpc             | delete vpc|
 |zones                  | show DNS zones|
 |zonerecords            | show DNS zonerecords|
 |zone_create            | create DNS zone|
