@@ -30,7 +30,9 @@ Roles
 |ecs_create             | create and start virtual machine|
 |ecs_delete             | delete a specific virtual machine|
 |ecs_show               | information about a specific virtual machine|
-|eip                    | show floating ip-addresses|
+|eip                    | show elastic ip-addresses|
+|eip_apply              | apply a new elastic ip-address|
+|eip_delete             | delete elastic ip-address|
 |elb                    | list elastic loadbalancers|
 |elb_create             | create elastic loadbalancer|
 |elb_delete             | delete elastic loadbalancer|
@@ -256,9 +258,17 @@ show flavors
 
     ansible-playbook -i hosts flavors.yml --vault-password-file vaultpass.txt
 
-show floating ip-addresses
+show elastic ip-addresses
 
     ansible-playbook -i hosts eip.yml --vault-password-file vaultpass.txt
+
+apply a new elastic ip-address (bandwidth between 1-300 MBit/s)
+
+    ansible-playbook -i hosts eip_apply.yml -e "eip_bandwidth_name=ansible-eip1" -e "eip_bandwidth_size=100"  --vault-password-file vaultpass.txt
+
+delete elastic ip-address
+
+    ansible-playbook -i hosts eip_delete.yml -e "eip_id=c417c3bf-fdd2-47c4-a64f-320add5759b5"  --vault-password-file vaultpass.txt
 
 show images
 
