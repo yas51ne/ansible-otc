@@ -30,6 +30,9 @@ Roles
 |ecs_create             | create and start virtual machine|
 |ecs_delete             | delete a specific virtual machine|
 |ecs_show               | information about a specific virtual machine|
+|eip                    | show elastic ip-addresses|
+|eip_apply              | apply a new elastic ip-address|
+|eip_delete             | delete elastic ip-address|
 |elb                    | list elastic loadbalancers|
 |elb_create             | create elastic loadbalancer|
 |elb_delete             | delete elastic loadbalancer|
@@ -46,19 +49,30 @@ Roles
 |elb_backends           | list backends for elastic loadbalancer|
 |elb_backends_create    | create backends for elastic loadbalancer|
 |elb_backends_delete    | delete backends for elastic loadbalancer|
+|endpoints              | discover API endpoints|
+|evs                    | list volumes|
+|evs_create             | create a volume|
+|evs_delete             | delete a volume|
+|evs_show               | information about a specific volume|
 |flavors                | show flavors|
-|floatingip             | show floating ip-addresses|
 |images                 | show images|
 |image_create           | create an image from obs|
 |image_delete           | delete an image |
 |job                    | show job status|
 |keypairs               | show keypairs|
+|services               | discover API services|
 |s3                     | show s3 buckets|
 |s3_bucket_create       | create s3 bucket|
 |s3_bucket_delete       | delete s3 bucket|
 |s3_upload              | upload files in s3 object store|
 |secgroups              | show security groups|
+|secgroup_create        | create security group|
+|secgroup_delete        | delete security group|
+|secgrouprule_create    | create security group rule|
+|secgrouprule_delete    | delete security group rule|
 |subnet                 | show subnet|
+|subnet_create          | create subnet (vars in subnet_var.yml)|
+|subnet_delete          | delete subnet|
 |token                  | get auth token|
 |vpc                    | show vpc|
 |zones                  | show DNS zones|
@@ -104,8 +118,10 @@ Files
 |----------------|------------|
 |ajob            | shell script to fetch job status from OTC|
 |secrets.yml     | var file for OTC credentials and endpoints (ansible-vault)|
-|ecs_secrets.yml  | var file for virtual machine conf (ansible-vault)|
+|ecs_secrets.yml | var file for virtual machine and volume conf (ansible-vault)|
 |elb_secrets.yml | var file for elastic loadbalancer conf (ansible-vault)|
+|secgrouprule.yml| var file for single security group rule |
+|subnet_var.yml  | var file for subnet |
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
 |hosts           | host file for ansible (we use only localhost)|
 
@@ -124,9 +140,13 @@ list virtual machines
 
     ansible-playbook -i hosts ecs.yml --vault-password-file vaultpass.txt
 
-create and start virtual machine (defined in ecs_secrets.yml)
+create and start virtual machine (defined in _ecs_secrets.yml)
 
-    ansible-playbook -i hosts ecs_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_create.yml -e @_ecs_secrets.yml --vault-password-file vaultpass.txt
+
+create and start virtual machine (defined in _ecs_secrets.yml and overwrite options)
+
+    ansible-playbook -i hosts ecs_create.yml -e @_ecs_secrets.yml -e "ecs_name=test02-ansible" --vault-password-file vaultpass.txt
 
 create and start virtual machine with file injection 
 (inject up to 5 max 1k base64 encoded files)
@@ -139,6 +159,10 @@ create and start virtual machine with injection user_data
     ansible-playbook -i hosts -e "ecs_user_data=$(base64 -w 0 user-data.txt)" ecs_create.yml --vault-password-file vaultpass.txt
 
 (!) You can define ecs_fileinject_1, ecs_fileinject_data_1 and ecs_user_data also in _ecs_secrets.yml. Files must be base64 encoded.
+
+show virtual machine (single)
+
+    ansible-playbook -e "ecs_id=51b6558a-7a6d-49f4-94e5-f4ec94314746 ecs_name=test05-ansible" -i hosts ecs_show.yml --vault-password-file vaultpass.txt
 
 delete virtual machine (only the machine)
 
@@ -217,13 +241,41 @@ delete backends for elastic loadbalancer
 
     ansible-playbook -i hosts -e "elb_listener_id=e12454b93f304b759be699cb0270648c elb_backends_id=f6b7536e-b954-4d73-940f-248de71ce58b" elb_backends_delete.yml --vault-password-file vaultpass.txt
 
+discover API endpoints
+
+    ansible-playbook -i hosts endpoints.yml --vault-password-file vaultpass.txt
+
+list volumes
+
+    ansible-playbook -i hosts evs.yml --vault-password-file vaultpass.txt
+
+create a volume (defined in ecs_secrets.yml)
+
+    ansible-playbook -i hosts evs_create.yml --vault-password-file vaultpass.txt
+
+delete a volume 
+
+    ansible-playbook -i hosts evs_delete.yml -e "evs_id=05f143e0-3ca9-4ec7-97e6-733dd281c283" --vault-password-file vaultpass.txt
+
+show information about a single volume
+
+    ansible-playbook -i hosts evs_show.yml -e "evs_id=05f143e0-3ca9-4ec7-97e6-733dd281c283" --vault-password-file vaultpass.txt
+
 show flavors
 
     ansible-playbook -i hosts flavors.yml --vault-password-file vaultpass.txt
 
-show floating ip-addresses
+show elastic ip-addresses
 
-    ansible-playbook -i hosts floatingip.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts eip.yml --vault-password-file vaultpass.txt
+
+apply a new elastic ip-address (bandwidth between 1-300 MBit/s)
+
+    ansible-playbook -i hosts eip_apply.yml -e "eip_bandwidth_name=ansible-eip1" -e "eip_bandwidth_size=100"  --vault-password-file vaultpass.txt
+
+delete elastic ip-address
+
+    ansible-playbook -i hosts eip_delete.yml -e "eip_id=c417c3bf-fdd2-47c4-a64f-320add5759b5"  --vault-password-file vaultpass.txt
 
 show images
 
@@ -242,6 +294,10 @@ show job status
 show keypairs
 
     ansible-playbook -i hosts keypairs.yml --vault-password-file vaultpass.txt
+
+discover API services
+
+    ansible-playbook -i hosts services.yml --vault-password-file vaultpass.txt
 
 show s3 buckets
 
@@ -263,14 +319,49 @@ show security groups
 
     ansible-playbook -i hosts secgroups.yml --vault-password-file vaultpass.txt
 
+show security groups (only from one vpc)
+
+    ansible-playbook -i hosts secgroups.yml -e "vpc_id=d59284de-ad78-4fee-8f2d-d6ff335f4961" --vault-password-file vaultpass.txt
+
+create security group
+
+    ansible-playbook -i hosts secgroup_create.yml -e "secgroup_name=ansible-secgroup01" -e "vpc_id=d59284de-ad78-4fee-8f2d-d6ff335f4961" --vault-password-file vaultpass.txt
+
+delete security group
+
+    ansible-playbook -i hosts secgroup_delete.yml -e "secgroup_id="6e8ac0a0-e0ec-4c4d-a786-9c9c946fd673"" --vault-password-file vaultpass.txt
+
+create security group rule
+
+    ansible-playbook -i hosts secgrouprule_create.yml -e "secgroup_id=e67e7ef1-b582-47f7-a43f-6a244fd01353" -e @secgrouprule.yml --vault-password-file vaultpass.txt
+
+delete security group rule
+
+    ansible-playbook -i hosts secgrouprule_delete.yml -e "secgrouprule_id=3c329359-fef5-402f-b29a-caac734065a1" --vault-password-file vaultpass.txt
+
 show subnets
 
     ansible-playbook -i hosts subnet.yml --vault-password-file vaultpass.txt
+
+create subnet (vars in subnet_var.yml)
+
+    ansible-playbook -i hosts subnet_create.yml -e @subnet_var.yml  --vault-password-file vaultpass.txt
+
+delete subnet
+
+    ansible-playbook -i hosts subnet_delete.yml -e "vpc_id=0db2af4b-115d-426a-acae-889b025110c8" -e "subnet_id=3ec461e1-eca4-485b-a2a5-91a840968a4f"  --vault-password-file vaultpass.txt
 
 show vpc
 
     ansible-playbook -i hosts vpc.yml --vault-password-file vaultpass.txt
 
+create vpc
+
+    ansible-playbook -i hosts vpc_create.yml -e "vpc_name=ansible-vpc1" -e "vpc_net=192.168.0.0/16" --vault-password-file vaultpass.txt 
+
+delete vpc
+
+    ansible-playbook -i hosts vpc_delete.yml -e "vpc_id=0db2af4b-115d-426a-acae-889b025110c8" --vault-password-file vaultpass.txt 
 show DNS zones
 
     ansible-playbook -i hosts  zones.yml --vault-password-file vaultpass.txt

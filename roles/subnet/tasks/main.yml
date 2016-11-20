@@ -1,6 +1,6 @@
 - name: Request subnet list from API
   uri:
-    url: "{{ AUTH_URL_SUBNETS }}"
+    url: "{{ AUTH_URL_VPC }}/subnets"
     method: GET
     return_content: yes 
     validate_certs: yes
