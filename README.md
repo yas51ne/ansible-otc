@@ -71,6 +71,8 @@ Roles
 |secgrouprule_create    | create security group rule|
 |secgrouprule_delete    | delete security group rule|
 |subnet                 | show subnet|
+|subnet_create          | create subnet (vars in subnet_var.yml)|
+|subnet_delete          | delete subnet|
 |token                  | get auth token|
 |vpc                    | show vpc|
 |zones                  | show DNS zones|
@@ -119,6 +121,7 @@ Files
 |ecs_secrets.yml | var file for virtual machine and volume conf (ansible-vault)|
 |elb_secrets.yml | var file for elastic loadbalancer conf (ansible-vault)|
 |secgrouprule.yml| var file for single security group rule |
+|subnet_var.yml  | var file for subnet |
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
 |hosts           | host file for ansible (we use only localhost)|
 
@@ -339,6 +342,14 @@ delete security group rule
 show subnets
 
     ansible-playbook -i hosts subnet.yml --vault-password-file vaultpass.txt
+
+create subnet (vars in subnet_var.yml)
+
+    ansible-playbook -i hosts subnet_create.yml -e @subnet_var.yml  --vault-password-file vaultpass.txt
+
+delete subnet
+
+    ansible-playbook -i hosts subnet_delete.yml -e "vpc_id=0db2af4b-115d-426a-acae-889b025110c8" -e "subnet_id=3ec461e1-eca4-485b-a2a5-91a840968a4f"  --vault-password-file vaultpass.txt
 
 show vpc
 
