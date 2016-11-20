@@ -355,6 +355,13 @@ show vpc
 
     ansible-playbook -i hosts vpc.yml --vault-password-file vaultpass.txt
 
+create vpc
+
+    ansible-playbook -i hosts vpc_create.yml -e "vpc_name=ansible-vpc1" -e "vpc_net=192.168.0.0/16" --vault-password-file vaultpass.txt 
+
+delete vpc
+
+    ansible-playbook -i hosts vpc_delete.yml -e "vpc_id=0db2af4b-115d-426a-acae-889b025110c8" --vault-password-file vaultpass.txt 
 show DNS zones
 
     ansible-playbook -i hosts  zones.yml --vault-password-file vaultpass.txt
