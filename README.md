@@ -116,7 +116,7 @@ Files
 |----------------|------------|
 |ajob            | shell script to fetch job status from OTC|
 |secrets.yml     | var file for OTC credentials and endpoints (ansible-vault)|
-|ecs_secrets.yml  | var file for virtual machine and volume conf (ansible-vault)|
+|ecs_secrets.yml | var file for virtual machine and volume conf (ansible-vault)|
 |elb_secrets.yml | var file for elastic loadbalancer conf (ansible-vault)|
 |secgrouprule.yml| var file for single security group rule |
 |vaultpass.txt   | password file for ansible-vault. The default password is: linux :-)|
@@ -137,9 +137,13 @@ list virtual machines
 
     ansible-playbook -i hosts ecs.yml --vault-password-file vaultpass.txt
 
-create and start virtual machine (defined in ecs_secrets.yml)
+create and start virtual machine (defined in _ecs_secrets.yml)
 
-    ansible-playbook -i hosts ecs_create.yml --vault-password-file vaultpass.txt
+    ansible-playbook -i hosts ecs_create.yml -e @_ecs_secrets.yml --vault-password-file vaultpass.txt
+
+create and start virtual machine (defined in _ecs_secrets.yml and overwrite options)
+
+    ansible-playbook -i hosts ecs_create.yml -e @_ecs_secrets.yml -e "ecs_name=test02-ansible" --vault-password-file vaultpass.txt
 
 create and start virtual machine with file injection 
 (inject up to 5 max 1k base64 encoded files)
