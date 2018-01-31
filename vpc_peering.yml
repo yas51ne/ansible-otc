@@ -1,0 +1,8 @@
+---
+- hosts: all
+  roles:
+  - role: token
+  - role: vpc_peering
+#  - role: vpc_peering_accept  # Uncomment this line if you need to do peering with an external VPC from another tenant
+  - role:  create_local_peering_route 
+  - role:  create_peer_peering_route 
